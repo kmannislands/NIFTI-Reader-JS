@@ -1,5 +1,18 @@
 import { NiftiExtension } from "./nifti-extension";
 
+export type ArrayMatrix4 = [
+  [number, number, number, number],
+  [number, number, number, number],
+  [number, number, number, number],
+  [number, number, number, number]
+];
+
+export type ArrayMatrix3 = [
+  [number, number, number],
+  [number, number, number],
+  [number, number, number]
+];
+
 export class Utils {
   static crcTable: number[] | null = null;
 
