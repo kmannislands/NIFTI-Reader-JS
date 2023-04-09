@@ -6,7 +6,7 @@
 import { doesNotThrow, equal } from "assert";
 import { readFileSync } from "fs";
 
-import { Utils, readHeader, NIFTIEXTENSION } from "../src/nifti.js";
+import { Utils, readHeader, NiftiExtension } from "../src/index";
 
 var buf = readFileSync("./tests/data/avg152T1_LR_nifti2.nii.gz");
 var data = Utils.toArrayBuffer(buf);
@@ -24,7 +24,7 @@ describe("NIFTI-Reader-JS", function () {
     it("extensions can be added and serialized", function () {
       let edata = new Int32Array(6);
       edata.fill(8);
-      let newExtension = new NIFTIEXTENSION(32, 4, edata.buffer, true);
+      let newExtension = new NiftiExtension(32, 4, edata.buffer, true);
       nifti2.addExtension(newExtension);
       equal(1, nifti2.extensions.length);
       let bytes = nifti2.toArrayBuffer(true);

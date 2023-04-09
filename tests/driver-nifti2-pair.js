@@ -16,7 +16,7 @@
 import { equal, doesNotThrow, deepEqual } from "assert";
 import { readFileSync } from 'fs';
 
-import { Utils, isCompressed, decompress, isNIFTI2, isNIFTI, readHeader, readImage } from '../src/nifti.js';
+import { Utils, isCompressed, decompress, isNIFTI2, isNIFTI, readHeader, readImage } from '../src/index';
 
 var buf = readFileSync('./tests/data/air2.hdr.gz');
 var data = Utils.toArrayBuffer(buf);

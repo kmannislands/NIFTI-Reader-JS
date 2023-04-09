@@ -1,6 +1,6 @@
 {
   "name": "nifti-reader-js",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "A JavaScript NIfTI file format reader.",
   "main": "build/nifti-reader.js",
   "types": "build/nifti.d.ts",
