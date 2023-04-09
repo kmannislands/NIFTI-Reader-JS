@@ -113,7 +113,7 @@ export class NIFTI1 {
     ],
     private magic: string | 0 = 0,
     private isHDR: boolean = false,
-    private extensionFlag = [0, 0, 0, 0],
+    public extensionFlag = [0, 0, 0, 0],
     private extensionSize = 0,
     private extensionCode = 0,
     private extensions: NiftiExtension[] = []
