@@ -4,26 +4,26 @@
 
 "use strict";
 
-var assert = require("assert");
-var fs = require('fs');
+import { equal } from "assert";
+import { readFileSync } from 'fs';
 
-var nifti = require('../src/nifti.js');
+import { Utils, isCompressed, isNIFTI, readHeader } from '../src/nifti.js';
 
-var buf = fs.readFileSync('./tests/data/not-nifti.nii');
-var data = nifti.Utils.toArrayBuffer(buf);
+var buf = readFileSync('./tests/data/not-nifti.nii');
+var data = Utils.toArrayBuffer(buf);
 
 describe('NIFTI-Reader-JS', function () {
     describe('not-nifti test', function () {
         it('isCompressed() should return false', function () {
-            assert.equal(false, nifti.isCompressed(data));
+            equal(false, isCompressed(data));
         });
 
         it('isNIFTI() should return false', function () {
-            assert.equal(false, nifti.isNIFTI(data));
+            equal(false, isNIFTI(data));
         });
 
         it('readHeader() should return null', function () {
-            assert.equal(null, nifti.readHeader(data));
+            equal(null, readHeader(data));
         });
     });
 });

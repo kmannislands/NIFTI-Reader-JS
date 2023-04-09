@@ -13,15 +13,15 @@
 
 "use strict";
 
-var assert = require("assert");
-var fs = require('fs');
+import { equal, doesNotThrow, deepEqual } from "assert";
+import { readFileSync } from 'fs';
 
-var nifti = require('../src/nifti.js');
+import { Utils, isCompressed, decompress, isNIFTI1, isNIFTI, readHeader, readImage } from '../src/nifti.js';
 
-var buf = fs.readFileSync('./tests/data/air.hdr.gz');
-var data = nifti.Utils.toArrayBuffer(buf);
-var ibuf = fs.readFileSync('./tests/data/air.img.gz');
-var idata = nifti.Utils.toArrayBuffer(ibuf);
+var buf = readFileSync('./tests/data/air.hdr.gz');
+var data = Utils.toArrayBuffer(buf);
+var ibuf = readFileSync('./tests/data/air.img.gz');
+var idata = Utils.toArrayBuffer(ibuf);
 
 var nifti1 = null;
 var bytes = null;
@@ -29,62 +29,62 @@ var clone = null;
 describe('NIFTI-Reader-JS', function () {
     describe('uncompressed nifti-1 hdr/img pair test', function () {
         it('isCompressed() should return true', function () {
-            assert.equal(true, nifti.isCompressed(idata));
+            equal(true, isCompressed(idata));
         });
 
 
         it('should not throw error when decompressing header', function (done) {
-            assert.doesNotThrow(function() {
-                data = nifti.decompress(data);
+            doesNotThrow(function() {
+                data = decompress(data);
                 done();
             });
         });
 
         it('should not throw error when decompressing image', function (done) {
-            assert.doesNotThrow(function() {
-                idata = nifti.decompress(idata);
+            doesNotThrow(function() {
+                idata = decompress(idata);
                 done();
             });
         });
 
         it('isNIFTI1() should return true', function () {
-            assert.equal(true, nifti.isNIFTI1(data, true));
+            equal(true, isNIFTI1(data, true));
         });
 
         it('isNIFTI() should return true', function () {
-            assert.equal(true, nifti.isNIFTI(data, true));
+            equal(true, isNIFTI(data, true));
         });
 
         it('should not throw error when reading header', function (done) {
-            assert.doesNotThrow(function() {
-                nifti1 = nifti.readHeader(data, true);
+            doesNotThrow(function() {
+                nifti1 = readHeader(data, true);
                 done();
             });
         });
 
         it('dims[1] should be 79', function () {
-            assert.equal(79, nifti1.dims[1]);
+            equal(79, nifti1.dims[1]);
         });
 
         it('dims[2] should be 67', function () {
-            assert.equal(67, nifti1.dims[2]);
+            equal(67, nifti1.dims[2]);
         });
 
         it('dims[3] should be 64', function () {
-            assert.equal(64, nifti1.dims[3]);
+            equal(64, nifti1.dims[3]);
         });
 
         it('image data checksum should equal 692149477', function () {
-            var imageData = nifti.readImage(nifti1, idata);
-            var checksum = nifti.Utils.crc32(new DataView(imageData));
-            assert.equal(checksum, 692149477);
+            var imageData = readImage(nifti1, idata);
+            var checksum = Utils.crc32(new DataView(imageData));
+            equal(checksum, 692149477);
         });
 
         it('data returned from toArrayBuffer preserves all nifti-1 properties', function() {
-            nifti1 = nifti.readHeader(data, true);
+            nifti1 = readHeader(data, true);
             bytes = nifti1.toArrayBuffer();
-            clone = nifti.readHeader(bytes, true);
-            assert.deepEqual(clone, nifti1);
+            clone = readHeader(bytes, true);
+            deepEqual(clone, nifti1);
         });
 
     });
