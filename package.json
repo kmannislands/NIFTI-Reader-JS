@@ -12,12 +12,13 @@
     "fflate": "*"
   },
   "devDependencies": {
+    "esbuild-runner": "^2.2.2",
     "jsdoc-to-markdown": "*",
     "mocha": "*",
     "typescript": "^5.0.4"
   },
   "scripts": {
-    "test": "mocha --timeout 0 tests",
+    "test": "mocha --timeout 0 --require esbuild-runner/register tests",
     "typecheck": "tsc -b",
     "bundle": "esbuild ./src/nifti.js --bundle --tsconfig=tsconfig.json --outdir=build --minify",
     "build": "rm -rf build && mkdir build && npm run typecheck && npm run bundle",
