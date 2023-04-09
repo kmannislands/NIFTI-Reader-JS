@@ -7,7 +7,7 @@
 import { equal, doesNotThrow, deepEqual } from "assert";
 import { readFileSync } from 'fs';
 
-import { Utils, isCompressed, decompress, isNIFTI1, isNIFTI2, readHeader, readImage } from '../src/nifti.js';
+import { Utils, isCompressed, decompress, isNIFTI1, isNIFTI2, readHeader, readImage } from '../src/index';
 
 var buf = readFileSync('./tests/data/avg152T1_LR_nifti2.nii.gz');
 var data = Utils.toArrayBuffer(buf);

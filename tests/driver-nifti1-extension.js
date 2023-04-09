@@ -7,7 +7,15 @@
 import { doesNotThrow, equal } from "assert";
 import { readFileSync } from 'fs';
 
-import { Utils, decompress, isNIFTI1, readHeader, hasExtension, readExtensionData, NIFTIEXTENSION } from '../src/nifti.js';
+import {
+  Utils,
+  decompress,
+  isNIFTI1,
+  readHeader,
+  hasExtension,
+  readExtensionData,
+  NiftiExtension,
+} from "../src/index";
 
 // var buf = fs.readFileSync('./tests/data/afni.nii.gz');
 var buf = readFileSync('./tests/data/with_extension.nii.gz');
@@ -91,7 +99,7 @@ describe('NIFTI-Reader-JS', function () {
         it('extensions can be added and serialized', function() {
             let edata = new Int32Array(6);
             edata.fill(8);
-            let newExtension = new NIFTIEXTENSION(32, 4, edata.buffer, true);
+            let newExtension = new NiftiExtension(32, 4, edata.buffer, true);
             nifti1.addExtension(newExtension);
             equal(2, nifti1.extensions.length);
             let bytes = nifti1.toArrayBuffer(true);
@@ -111,7 +119,12 @@ describe('NIFTI-Reader-JS', function () {
         })
 
         it('extensions can be inserted and serialized', function() {
-            let newExtension = new NIFTIEXTENSION(32, 4, new Uint8Array(16), true);
+            let newExtension = new NiftiExtension(
+              32,
+              4,
+              new Uint8Array(16),
+              true
+            );
             nifti1.addExtension(newExtension, 0);
             equal(2, nifti1.extensions.length);
             let bytes = nifti1.toArrayBuffer(true);

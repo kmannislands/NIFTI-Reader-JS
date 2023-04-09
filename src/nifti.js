@@ -1,20 +1,12 @@
-
-/*jslint browser: true, node: true */
-/*global require, module */
-
-"use strict";
-
-/*** Imports ***/
+import { Utils } from './utilities';
 
 /**
  * nifti
  * @type {*|{}}
  */
-var nifti = nifti || {};
+export const nifti = {};
 nifti.NIFTI1 = nifti.NIFTI1 || ((typeof require !== 'undefined') ? require('./nifti1.js') : null);
 nifti.NIFTI2 = nifti.NIFTI2 || ((typeof require !== 'undefined') ? require('./nifti2.js') : null);
-nifti.NIFTIEXTENSION = nifti.NIFTIEXTENSION || ((typeof require !== 'undefined') ? require('./nifti-extension.js') : null);
-nifti.Utils = nifti.Utils || ((typeof require !== 'undefined') ? require('./utilities.js') : null);
 
 var fflate = fflate || ((typeof require !== 'undefined') ? require('fflate') : null);
 
@@ -100,11 +92,11 @@ nifti.isCompressed = function (data) {
         magicCookie1 = buf.getUint8(0);
         magicCookie2 = buf.getUint8(1);
 
-        if (magicCookie1 === nifti.Utils.GUNZIP_MAGIC_COOKIE1) {
+        if (magicCookie1 === Utils.GUNZIP_MAGIC_COOKIE1) {
             return true;
         }
 
-        if (magicCookie2 === nifti.Utils.GUNZIP_MAGIC_COOKIE2) {
+        if (magicCookie2 === Utils.GUNZIP_MAGIC_COOKIE2) {
             return true;
         }
     }
@@ -218,11 +210,3 @@ nifti.readExtensionData = function (header, data) {
 
     return data.slice(loc + 8, loc + size); // +8 for loc and -8 for esize and ecode
 };
-
-
-/*** Exports ***/
-
-var moduleType = typeof module;
-if ((moduleType !== 'undefined') && module.exports) {
-    module.exports = nifti;
-}
