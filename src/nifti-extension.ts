@@ -6,10 +6,10 @@ export class NiftiExtension {
    * @property {boolean} littleEndian - is little endian
    */
   constructor(
-    private esize: number,
-    private ecode: number,
-    private edata: ArrayBuffer,
-    private littleEndian: boolean
+    public readonly esize: number,
+    public readonly ecode: number,
+    public readonly edata: ArrayBuffer,
+    public readonly littleEndian: boolean
   ) {
     if (esize % 16 != 0) {
       throw new Error("This does not appear to be a NIFTI extension");
@@ -19,6 +19,7 @@ export class NiftiExtension {
   // TODO: what is the actual type of edata here? JSDoc and usage are inconsistent
   public toArrayBuffer(): ArrayBuffer {
     const byteArray = new Uint8Array(this.esize);
+    // TODO: How could this have worked? (browserify patching Buffer?)
     byteArray.set(this.edata, 8);
 
     const view = new DataView(byteArray.buffer);
